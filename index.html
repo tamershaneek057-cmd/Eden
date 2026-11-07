@@ -3,20 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Debug this error with me</title>
+    <title>Eden</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="wrap">
-      <h1>Debug this error with me</h1>
-      <p>Built with Eden. Edit app.js and ship.</p>
+      <section class="card">
+        <p class="eyebrow">Eden</p>
+        <h1>Type a message and watch it echo back.</h1>
 
-      <form id="form">
-        <input id="input" placeholder="Type here" />
-        <button type="submit">Run</button>
-      </form>
+        <form id="form" novalidate>
+          <label class="sr-only" for="input">Message</label>
+          <input id="input" name="message" type="text" placeholder="Type here" autocomplete="off" />
+          <button type="submit">Run</button>
+        </form>
 
-      <pre id="out">Ready.</pre>
+        <p id="status" class="status" aria-live="polite">Ready.</p>
+        <pre id="out" aria-live="polite">No message yet.</pre>
+      </section>
     </main>
 
     <script src="app.js"></script>
