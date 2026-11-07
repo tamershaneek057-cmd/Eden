@@ -1,31 +1,43 @@
-const form = document.getElementById('form')
-const input = document.getElementById('input')
-const out = document.getElementById('out')
-const status = document.getElementById('status')
+export function setupEdenApp(root = document) {
+  const form = root.getElementById('form')
+  const input = root.getElementById('input')
+  const out = root.getElementById('out')
+  const status = root.getElementById('status')
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault()
+  if (!form || !input || !out || !status) {
+    return
+  }
 
-  const value = input.value.trim()
+  const updateStatus = (message) => {
+    status.textContent = message
+  }
 
-  if (!value) {
-    status.textContent = 'Type something first.'
-    out.textContent = 'No message yet.'
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    const value = input.value.trim()
+
+    if (!value) {
+      updateStatus('Type something first.')
+      out.textContent = 'No message yet.'
+      input.focus()
+      return
+    }
+
+    updateStatus('Echo received.')
+    out.textContent = `Eden v0 received: ${value}`
+    input.value = ''
     input.focus()
-    return
-  }
+  })
 
-  status.textContent = 'Echo received.'
-  out.textContent = `Eden v0 received: ${value}`
-  input.value = ''
-  input.focus()
-})
+  input.addEventListener('input', () => {
+    updateStatus(input.value.trim() ? 'Ready to echo.' : 'Ready.')
+  })
 
-input.addEventListener('input', () => {
-  if (input.value.trim()) {
-    status.textContent = 'Ready to echo.'
-    return
-  }
+  updateStatus('Ready.')
+  out.textContent = 'No message yet.'
+}
 
-  status.textContent = 'Ready.'
-})
+if (typeof document !== 'undefined') {
+  setupEdenApp(document)
+}

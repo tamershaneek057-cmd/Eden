@@ -1,0 +1,15 @@
+{
+  "name": "eden-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "jsdom": "^25.0.1",
+    "vitest": "^2.1.8"
+  }
+}
