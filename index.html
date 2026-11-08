@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#07080d" />
-    <meta name="description" content="A simple, private debugging workspace that helps you understand common JavaScript errors." />
+    <meta name="description" content="A private, browser-based JavaScript error debugging companion." />
     <title>Eden — Debug this error with me</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,13 +16,16 @@
     <main class="shell">
       <header class="topbar">
         <a class="brand" href="#" aria-label="Eden home"><span class="brand-mark" aria-hidden="true">e</span> eden</a>
-        <span class="privacy"><span class="privacy-dot" aria-hidden="true"></span> Private by design</span>
+        <div class="topbar-actions">
+          <span class="privacy"><span class="privacy-dot" aria-hidden="true"></span> Runs in your browser</span>
+          <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to light theme" title="Switch theme"><span aria-hidden="true">☼</span></button>
+        </div>
       </header>
 
       <section class="intro" aria-labelledby="page-title">
         <p class="eyebrow">A calmer way to debug</p>
         <h1 id="page-title">Every error has<br /><span>a way forward.</span></h1>
-        <p class="intro-copy">Paste an error message or stack trace. Eden will help you identify a likely cause and suggest what to check next.</p>
+        <p class="intro-copy">Paste an error message or stack trace. Eden will find a likely cause and give you practical next steps—all without sending your code anywhere.</p>
       </section>
 
       <section class="workspace" aria-label="Error debugger">
@@ -45,14 +48,21 @@
       <section id="result" class="result" aria-live="polite" aria-atomic="true" hidden>
         <div class="result-topline">
           <div><p class="eyebrow">A place to start</p><h2 id="result-title">What might be happening</h2></div>
-          <button id="copy" class="copy-button" type="button" aria-label="Copy analysis">Copy</button>
+          <div class="result-actions"><span id="result-category" class="category-pill"></span><button id="copy" class="copy-button" type="button" aria-label="Copy analysis">Copy</button></div>
         </div>
         <p id="result-summary" class="result-summary"></p>
+        <div id="frames-section" class="frames-section" hidden><h3>Stack trace clues</h3><ol id="frames" class="frames-list"></ol></div>
         <div class="next-steps"><h3>Things to check</h3><ol id="steps"></ol></div>
-        <p class="disclaimer">This is a local, rule-based guide—not an AI diagnosis. Check the surrounding code before applying a fix.</p>
+        <p class="disclaimer">Rule-based guidance, not a definitive diagnosis. Review the surrounding code before applying a fix.</p>
       </section>
 
-      <footer><span>Made for the messy middle of debugging.</span><span>Your input stays in this browser.</span></footer>
+      <section class="history" aria-labelledby="history-title">
+        <div class="history-heading"><div><p class="eyebrow">On this device only</p><h2 id="history-title">Recent analyses</h2></div><button id="clear-history" class="text-button" type="button">Clear history</button></div>
+        <p id="history-empty" class="history-empty">Your recent analyses will appear here. Nothing is uploaded.</p>
+        <ul id="history-list" class="history-list"></ul>
+      </section>
+
+      <footer><span>Made for the messy middle of debugging.</span><span>History is stored locally in this browser.</span></footer>
     </main>
   </body>
 </html>

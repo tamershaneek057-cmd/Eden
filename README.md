@@ -1,6 +1,6 @@
 # Eden
 
-A private, browser-based JavaScript error debugging companion. Paste an error message or stack trace to get a likely explanation and practical next steps. Analysis runs locally in your browser; no server or API key is required.
+A private, browser-based JavaScript error debugging companion. Paste an error message or stack trace to get a likely explanation and practical next steps. Analysis runs locally; no server or API key is required.
 
 ## Run locally
 
@@ -12,21 +12,22 @@ A private, browser-based JavaScript error debugging companion. Paste an error me
    ```
 
 3. Visit <http://localhost:8000>.
-4. Paste an error, or choose **Try a sample error**, then select **Analyze error**.
+4. Paste an error, choose **Try a sample error**, or select a recent analysis, then select **Analyze error**.
 
 Clipboard copy works in browsers that provide the Clipboard API on secure contexts (HTTPS or localhost).
 
-## What it does
+## Features
 
-- Recognizes several common JavaScript error patterns and offers a likely cause plus debugging checks.
-- Provides a general stack-trace checklist when it cannot match an error.
-- Keeps analysis in the browser; it does not send or save pasted errors.
-- Includes a sample, clear action, character limit, and copyable analysis.
+- Rule-based hints for common TypeError, ReferenceError, SyntaxError, network, HTTP, and async errors.
+- Extracts common JavaScript stack frames and displays file, line, and column clues.
+- Saves up to five recent analyses locally in your browser so you can reopen them; **Clear history** removes them.
+- Dark/light theme toggle, sample error, clear action, character count, and copyable results.
+- Pasted errors are never uploaded. History and theme preference use this browser's local storage.
 
-The guidance is rule-based and is not a substitute for checking the relevant code and runtime context.
+The guidance is an offline starting point, not a definitive diagnosis. Check the relevant source code and runtime context before applying a fix.
 
 ## Files
 
 - `index.html` — accessible page structure
-- `styles.css` — responsive visual design
-- `app.js` — local error matching and interactions
+- `styles.css` — responsive visual design and themes
+- `app.js` — local error matching, stack parsing, history, and interactions
