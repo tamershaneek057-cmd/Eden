@@ -1,6 +1,6 @@
 # Eden
 
-Eden is a private, browser-based JavaScript debugging companion with an AI-inspired assistant interface. It uses transparent, local pattern matching—not a connected AI model—to explain common error messages and suggest practical next steps.
+Eden is a private, browser-based JavaScript debugging companion with a chat-style interface. It analyzes pasted errors with local, transparent pattern matching—there is no connected AI service, account, or upload.
 
 ## Run locally
 
@@ -12,22 +12,20 @@ Eden is a private, browser-based JavaScript debugging companion with an AI-inspi
    ```
 
 3. Visit <http://localhost:8000>.
-4. Paste an error, choose one of the example chips, then select **Analyze error** (or press Ctrl/⌘ + Enter).
-
-Clipboard copy works in browsers that provide the Clipboard API on secure contexts (HTTPS or localhost).
+4. Paste an error or choose an example, then select **Start a session** (or press Ctrl/⌘ + Enter).
 
 ## Features
 
-- Assistant-style interface with responsive light and dark themes.
-- Local pattern matching for common TypeError, ReferenceError, SyntaxError, network, HTTP, and async errors.
-- Stack-frame extraction with file, line, and column clues where present in the pasted text.
-- Clear suggestions, one-click examples, copyable notes, and recent analysis history.
-- Keeps analysis in the browser. History and theme preference use local storage on this device.
+- Conversational diagnostic cards with error category, severity hint, and a heuristic match-confidence score.
+- Common JavaScript runtime, scope, syntax, network, HTTP, JSON, and async patterns.
+- Stack-frame clues and contextual fix-pattern snippets with copy support.
+- Local follow-up prompts, recent session history, and a light/dark theme.
+- All analysis runs locally. Recent sessions and theme preference are kept in this browser's local storage.
 
-This is offline, rule-based guidance rather than an AI diagnosis. It does not upload pasted errors or connect to an AI service. Check the relevant source code and runtime context before applying a fix.
+Confidence is a heuristic signal-strength score based on the matched message pattern and available stack-trace clues. It is not a probability that the diagnosis or code suggestion is correct. Snippets are examples to adapt, not automatic patches. Review your code and runtime context before applying changes.
 
 ## Files
 
-- `index.html` — assistant interface and accessible controls
-- `styles.css` — responsive visual design and themes
-- `app.js` — local error matching, stack parsing, history, and interactions
+- `index.html` — chat-style debugging workspace
+- `styles.css` — cinematic responsive interface and themes
+- `app.js` — local classification, confidence heuristic, stack parsing, suggestions, and history

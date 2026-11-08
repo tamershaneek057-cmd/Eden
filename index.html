@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#07080d" />
-    <meta name="description" content="A private, browser-based JavaScript error debugging companion." />
-    <title>Eden — Debug assistant</title>
+    <meta name="theme-color" content="#080a0f" />
+    <meta name="description" content="A private, browser-based debugging companion for understanding JavaScript errors." />
+    <title>Eden — Debugging, together</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -13,56 +13,41 @@
     <script src="app.js" defer></script>
   </head>
   <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
     <main class="app-shell">
       <header class="topbar">
-        <a class="brand" href="#" aria-label="Eden home"><span class="brand-mark" aria-hidden="true"><span></span></span><span>eden<span class="brand-product"> / DEBUG ASSISTANT</span></span></a>
-        <div class="topbar-right"><span class="local-badge"><span class="status-dot"></span> LOCAL &amp; PRIVATE</span><button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to light theme" title="Switch theme"><span aria-hidden="true">☼</span></button></div>
+        <a class="brand" href="#" aria-label="Eden home"><span class="brand-mark"><span></span></span><span>eden<span class="brand-product"> / DEBUG STUDIO</span></span></a>
+        <div class="topbar-right"><span class="local-badge"><span class="status-dot"></span> PRIVATE SESSION</span><button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to light theme" title="Switch theme"><span aria-hidden="true">☼</span></button></div>
       </header>
 
-      <section class="welcome" aria-labelledby="page-title">
-        <div><p class="eyebrow"><span class="sparkle" aria-hidden="true">✳</span> YOUR DEBUGGING SIDEKICK</p><h1 id="page-title">Let’s untangle<br /><em>what went wrong.</em></h1></div>
-        <p class="welcome-copy">Drop in an error. Get a clear explanation and a practical place to start. Your code never leaves this device.</p>
-      </section>
+      <section class="hero"><div><p class="eyebrow"><span class="sparkle">✳</span> YOUR PERSONAL DEBUGGING SPACE</p><h1>Let’s find the<br /><em>signal in the noise.</em></h1></div><p class="hero-copy">A thoughtful companion for the moments when your code talks back. Start with an error; leave with a next step.</p></section>
 
-      <div class="workspace-grid">
-        <section class="input-panel panel" aria-label="Error input">
-          <div class="panel-heading"><div><span class="step-number">01</span><h2>Show me the error</h2></div><span class="panel-meta">ERROR INPUT</span></div>
-          <p class="panel-hint">Paste the full message or stack trace for the best clues.</p>
-          <form id="form">
-            <div class="editor-heading"><label for="input">Error message</label><span id="char-count" class="char-count">0 / 5000</span></div>
-            <textarea id="input" maxlength="5000" placeholder="Paste an error or stack trace here…" spellcheck="false" required></textarea>
-            <div class="example-row"><span class="example-label">Need an example?</span><button class="example-chip" type="button" data-example="type">TypeError</button><button class="example-chip" type="button" data-example="reference">ReferenceError</button><button class="example-chip" type="button" data-example="network">Network</button></div>
-            <div class="form-footer"><span class="shortcut-hint"><kbd>⌘</kbd><kbd>↵</kbd> to analyze</span><div class="form-actions"><button class="button button-quiet" id="clear" type="button">Clear</button><button class="button button-primary" type="submit"><span class="button-sparkle" aria-hidden="true">✳</span> Analyze error <span aria-hidden="true">→</span></button></div></div>
-          </form>
-          <div class="privacy-note"><span aria-hidden="true">◈</span><span><strong>Your input stays yours.</strong> Analysis happens right here in your browser. No uploads, no account.</span></div>
-        </section>
-
-        <section id="result" class="assistant-panel panel" aria-live="polite" aria-atomic="true" hidden>
-          <div class="panel-heading"><div><span class="step-number">02</span><h2>Here’s what I found</h2></div><span class="assistant-state"><span class="status-dot"></span> READY</span></div>
-          <div class="assistant-message">
-            <div class="assistant-avatar" aria-hidden="true"><span class="avatar-orbit"></span>e</div>
-            <div class="assistant-content"><div class="assistant-byline"><strong>Eden</strong><span>DEBUG ASSISTANT</span></div><p class="eyebrow result-eyebrow">A PLACE TO START</p><h3 id="result-title">What might be happening</h3><div class="result-tags"><span id="result-category" class="category-pill"></span><span id="result-confidence" class="confidence-pill"></span></div><p id="result-summary" class="result-summary"></p></div>
+      <section class="studio-grid" aria-label="Debugging workspace">
+        <aside class="input-column">
+          <div class="section-label"><span class="step-index">01</span><span>THE CONSOLE</span><span class="live-indicator"><i></i> READY</span></div>
+          <div class="console-card">
+            <div class="console-top"><div class="window-dots"><i></i><i></i><i></i></div><span>error.log</span><span class="console-lock">LOCAL ONLY ◈</span></div>
+            <form id="form">
+              <label class="sr-only" for="input">Paste an error or stack trace</label>
+              <textarea id="input" maxlength="5000" placeholder="Paste an error or stack trace…" spellcheck="false" required></textarea>
+              <div class="console-meta"><span>Plain text · up to 5,000 characters</span><span id="char-count">0 / 5000</span></div>
+              <div class="example-row"><span>Try a signal:</span><button type="button" class="example-chip" data-example="type">TypeError</button><button type="button" class="example-chip" data-example="reference">Reference</button><button type="button" class="example-chip" data-example="async">Async</button></div>
+              <div class="submit-row"><span class="shortcut-hint"><kbd>⌘</kbd><kbd>↵</kbd></span><button class="analyze-button" type="submit"><span class="button-orb">✳</span> Start a session <span class="arrow">↗</span></button></div>
+            </form>
           </div>
-          <div id="frames-section" class="frames-section" hidden><h3><span class="section-icon">⌁</span> Stack trace clues</h3><ol id="frames" class="frames-list"></ol></div>
-          <div class="next-steps"><h3><span class="section-icon">↗</span> A few things to check</h3><ol id="steps"></ol></div>
-          <div class="result-bottom"><p class="disclaimer">A helpful starting point, not a definitive diagnosis. Always verify against your code.</p><button id="copy" class="copy-button" type="button"><span aria-hidden="true">▢</span> Copy notes</button></div>
-        </section>
+          <div class="input-footnote"><span>◈</span> Your message stays on this device. Eden uses local rules—no AI service or upload.</div>
+          <section class="history-card" aria-labelledby="history-title"><div class="history-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h2 id="history-title">Recent sessions</h2></div><button id="clear-history" class="text-button" type="button">Clear</button></div><p id="history-empty" class="history-empty">Your previous debugging sessions will appear here.</p><ul id="history-list" class="history-list"></ul></section>
+        </aside>
 
-        <section id="empty-state" class="assistant-panel empty-panel panel" aria-label="Assistant introduction">
-          <div class="empty-orb" aria-hidden="true"><span class="orb-core">e</span><i></i><i></i><i></i></div>
-          <p class="eyebrow">READY WHEN YOU ARE</p><h2>Your next clue<br />is one error away.</h2><p>Share what the console is telling you. I’ll help you make sense of the message, find the useful stack-trace frames, and decide what to inspect next.</p>
-          <div class="empty-checks"><span><b>01</b> Identify a likely cause</span><span><b>02</b> Surface stack-trace clues</span><span><b>03</b> Suggest a next step</span></div>
-          <span class="rule-based-note"><span class="status-dot"></span> Offline, rule-based guidance</span>
+        <section class="chat-column" aria-label="Debugging conversation">
+          <div class="chat-header"><div class="chat-title"><span class="assistant-avatar"><span class="avatar-core">e</span><i></i></span><div><h2>Eden</h2><p><span class="status-dot"></span> Debugging companion <span class="chat-model">· Local analysis</span></p></div></div><span class="chat-session-label">SESSION <b id="session-number">—</b></span></div>
+          <div id="conversation" class="conversation" aria-live="polite" aria-relevant="additions">
+            <div id="welcome-state" class="welcome-state"><div class="welcome-art" aria-hidden="true"><span class="art-ring ring-a"></span><span class="art-ring ring-b"></span><span class="art-center">e</span><span class="art-star star-a">✳</span><span class="art-star star-b">✦</span></div><p class="eyebrow">A LITTLE CLARITY GOES A LONG WAY</p><h3>Bring me the<br /><em>weird stuff.</em></h3><p>Paste a console error and we’ll break it down together. I’ll share what the pattern suggests, what I’m less sure about, and where I’d look next.</p><div class="welcome-points"><span><b>01</b> Read the error signal</span><span><b>02</b> Find useful frames</span><span><b>03</b> Try a careful fix</span></div></div>
+          </div>
+          <div id="conversation-footer" class="conversation-footer"><span><i class="status-dot"></i> Waiting for an error</span><span>RULE-BASED · PRIVATE</span></div>
         </section>
-      </div>
-
-      <section class="history panel" aria-labelledby="history-title">
-        <div class="history-heading"><div class="history-title-wrap"><span class="step-number">↺</span><div><p class="eyebrow">SAVED ON THIS DEVICE</p><h2 id="history-title">Recent sessions</h2></div></div><button id="clear-history" class="text-button" type="button">Clear history</button></div>
-        <p id="history-empty" class="history-empty">No sessions yet. Your analyses will show up here.</p>
-        <ul id="history-list" class="history-list"></ul>
       </section>
-
-      <footer><span>Made for the messy middle of debugging.</span><span>Pattern matching by Eden · no AI service connected</span></footer>
+      <footer><span>EDEN DEBUG STUDIO <i>·</i> MADE FOR THE MESSY MIDDLE</span><span>Nothing is sent to a server.</span></footer>
     </main>
   </body>
 </html>
