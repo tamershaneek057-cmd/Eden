@@ -9,7 +9,11 @@ const historyList = document.getElementById('history-list')
 const HISTORY_KEY = 'eden.analysis-history.v1'
 const THEME_KEY = 'eden.theme.v1'
 
-const sampleError = `TypeError: Cannot read properties of undefined (reading 'name')\n    at renderProfile (src/profile.js:18:24)\n    at App (src/App.js:42:9)`
+const sampleErrors = {
+  type: `TypeError: Cannot read properties of undefined (reading 'name')\n    at renderProfile (src/profile.js:18:24)\n    at App (src/App.js:42:9)`,
+  reference: `ReferenceError: userProfile is not defined\n    at renderProfile (src/profile.js:12:3)\n    at App (src/App.js:42:9)`,
+  network: `TypeError: Failed to fetch\n    at async loadDashboard (src/api.js:28:18)\n    at async App (src/App.js:16:5)`
+}
 
 const diagnoses = [
   { category: 'TypeError', match: /Cannot read propert(?:y|ies) of (?:undefined|null)|cannot read (?:propert(?:y|ies)|length) of (?:undefined|null)/i, title: 'A value is missing before it is used', summary: 'Code is trying to access a property on a value that is currently null or undefined. It may not have been initialized, loaded, or returned in the shape you expect.', steps: ['Use the first application file and line in the stack trace to find the property access.', 'Trace where the value comes from; check API responses, function returns, and component props.', 'If the value is optional, add an intentional loading/empty state or guard before accessing its property.'] },
@@ -23,12 +27,13 @@ const diagnoses = [
 ]
 
 function analyze(message) {
-  const diagnosis = diagnoses.find((item) => item.match.test(message)) || {
+  const match = diagnoses.find((item) => item.match.test(message))
+  const diagnosis = match || {
     category: 'Unclassified', title: 'Start with the first useful stack-trace frame',
-    summary: 'Eden could not confidently match this message to a common JavaScript error. The stack trace and code around the first frame are usually the best clues.',
+    summary: 'I could not confidently match this message to a common JavaScript error. The stack trace and code around the first frame are usually the best clues.',
     steps: ['Look for the first frame that points to your own source file, rather than a library or browser internals.', 'Inspect the exact line and values it uses; reproduce the issue with the smallest possible input.', 'Check the browser console and Network panel for an earlier error that may have triggered this one.']
   }
-  return { ...diagnosis, frames: parseFrames(message) }
+  return { ...diagnosis, matched: Boolean(match), frames: parseFrames(message) }
 }
 
 function parseFrames(message) {
@@ -80,6 +85,7 @@ function renderAnalysis(message, save = true) {
   const diagnosis = analyze(message)
   document.getElementById('result-title').textContent = diagnosis.title
   document.getElementById('result-category').textContent = diagnosis.category
+  document.getElementById('result-confidence').textContent = diagnosis.matched ? 'Pattern match' : 'General guidance'
   resultSummary.textContent = diagnosis.summary
   steps.replaceChildren(...diagnosis.steps.map((step) => {
     const item = document.createElement('li')
@@ -96,8 +102,9 @@ function renderAnalysis(message, save = true) {
     item.append(code)
     return item
   }))
+  document.getElementById('empty-state').hidden = true
   result.hidden = false
-  copyButton.textContent = 'Copy'
+  copyButton.textContent = '▢ Copy notes'
   if (save) saveHistory(message, diagnosis)
 }
 
@@ -110,16 +117,21 @@ form.addEventListener('submit', (event) => {
   if (!message) { input.focus(); return }
   renderAnalysis(message)
 })
-
-document.getElementById('sample').addEventListener('click', () => {
-  input.value = sampleError
-  updateCharCount()
-  input.focus()
+input.addEventListener('keydown', (event) => {
+  if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') form.requestSubmit()
+})
+document.querySelectorAll('.example-chip').forEach((button) => {
+  button.addEventListener('click', () => {
+    input.value = sampleErrors[button.dataset.example]
+    updateCharCount()
+    input.focus()
+  })
 })
 document.getElementById('clear').addEventListener('click', () => {
   input.value = ''
   updateCharCount()
   result.hidden = true
+  document.getElementById('empty-state').hidden = false
   input.focus()
 })
 document.getElementById('clear-history').addEventListener('click', () => {
@@ -130,7 +142,7 @@ document.getElementById('clear-history').addEventListener('click', () => {
 copyButton.addEventListener('click', async () => {
   const frameText = Array.from(document.getElementById('frames').children, (item) => `- ${item.textContent}`).join('\n')
   const text = `${document.getElementById('result-title').textContent} [${document.getElementById('result-category').textContent}]\n\n${resultSummary.textContent}${frameText ? `\n\nStack trace clues:\n${frameText}` : ''}\n\nThings to check:\n${Array.from(steps.children, (item) => `- ${item.textContent}`).join('\n')}`
-  try { await navigator.clipboard.writeText(text); copyButton.textContent = 'Copied' }
+  try { await navigator.clipboard.writeText(text); copyButton.textContent = '✓ Copied' }
   catch { copyButton.textContent = 'Copy unavailable' }
 })
 

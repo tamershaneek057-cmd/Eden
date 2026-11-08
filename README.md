@@ -1,6 +1,6 @@
 # Eden
 
-A private, browser-based JavaScript error debugging companion. Paste an error message or stack trace to get a likely explanation and practical next steps. Analysis runs locally; no server or API key is required.
+Eden is a private, browser-based JavaScript debugging companion with an AI-inspired assistant interface. It uses transparent, local pattern matching—not a connected AI model—to explain common error messages and suggest practical next steps.
 
 ## Run locally
 
@@ -12,22 +12,22 @@ A private, browser-based JavaScript error debugging companion. Paste an error me
    ```
 
 3. Visit <http://localhost:8000>.
-4. Paste an error, choose **Try a sample error**, or select a recent analysis, then select **Analyze error**.
+4. Paste an error, choose one of the example chips, then select **Analyze error** (or press Ctrl/⌘ + Enter).
 
 Clipboard copy works in browsers that provide the Clipboard API on secure contexts (HTTPS or localhost).
 
 ## Features
 
-- Rule-based hints for common TypeError, ReferenceError, SyntaxError, network, HTTP, and async errors.
-- Extracts common JavaScript stack frames and displays file, line, and column clues.
-- Saves up to five recent analyses locally in your browser so you can reopen them; **Clear history** removes them.
-- Dark/light theme toggle, sample error, clear action, character count, and copyable results.
-- Pasted errors are never uploaded. History and theme preference use this browser's local storage.
+- Assistant-style interface with responsive light and dark themes.
+- Local pattern matching for common TypeError, ReferenceError, SyntaxError, network, HTTP, and async errors.
+- Stack-frame extraction with file, line, and column clues where present in the pasted text.
+- Clear suggestions, one-click examples, copyable notes, and recent analysis history.
+- Keeps analysis in the browser. History and theme preference use local storage on this device.
 
-The guidance is an offline starting point, not a definitive diagnosis. Check the relevant source code and runtime context before applying a fix.
+This is offline, rule-based guidance rather than an AI diagnosis. It does not upload pasted errors or connect to an AI service. Check the relevant source code and runtime context before applying a fix.
 
 ## Files
 
-- `index.html` — accessible page structure
+- `index.html` — assistant interface and accessible controls
 - `styles.css` — responsive visual design and themes
 - `app.js` — local error matching, stack parsing, history, and interactions
